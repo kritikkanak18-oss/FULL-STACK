@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Drawing Tool</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    #drawingArea {
+        border: 2px solid #333;
+        background-color: #f8f8f8;
+        cursor: crosshair;
+        display: block;
+        margin: 20px auto;
+    }
+</style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Interactive SVG Drawing Tool</h2>
+
+<svg id="drawingArea" width="800" height="500"></svg>
+
+<script>
+    const svg = document.getElementById('drawingArea');
+    let drawing = false;
+    let currentLine = null;
+
+    svg.addEventListener('mousedown', (e) => {
+        drawing = true;
+
+        // Get mouse position relative to SVG
+        const { x, y } = getMousePosition(e);
+
+        // Create a new line element
+        currentLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        currentLine.setAttribute("x1", x);
+        currentLine.setAttribute("y1", y);
+        currentLine.setAttribute("x2", x);
+        currentLine.setAttribute("y2", y);
+        currentLine.setAttribute("stroke", "black");
+        currentLine.setAttribute("stroke-width", 2);
+
+        svg.appendChild(currentLine);
+    });
+
+    svg.addEventListener('mousemove', (e) => {
+        if (!drawing || !currentLine) return;
+
+        const { x, y } = getMousePosition(e);
+        currentLine.setAttribute("x2", x);
+        currentLine.setAttribute("y2", y);
+    });
+
+    svg.addEventListener('mouseup', () => {
+        drawing = false;
+        currentLine = null;
+    });
+
+    svg.addEventListener('mouseleave', () => {
+        drawing = false;
+        currentLine = null;
+    });
+
+    function getMousePosition(evt) {
+        const rect = svg.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }
+</script>
+
+</body>
+</html>

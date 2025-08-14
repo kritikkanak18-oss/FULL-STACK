@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Character Counter</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    textarea {
+        width: 100%;
+        height: 120px;
+        padding: 10px;
+        font-size: 16px;
+        resize: vertical;
+    }
+    .counter {
+        margin-top: 5px;
+        font-size: 14px;
+        color: #555;
+    }
+    .warning {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h2>Live Character Counter</h2>
+
+<textarea id="textArea" placeholder="Type here..."></textarea>
+<div id="charCount" class="counter">0 / 200 characters</div>
+
+<script>
+    const textArea = document.getElementById('textArea');
+    const charCount = document.getElementById('charCount');
+    const maxLength = 200; // maximum characters allowed
+
+    textArea.addEventListener('input', () => {
+        let currentLength = textArea.value.length;
+        charCount.textContent = `${currentLength} / ${maxLength} characters`;
+        
+        // Add warning style if limit exceeded
+        if (currentLength > maxLength) {
+            charCount.classList.add('warning');
+        } else {
+            charCount.classList.remove('warning');
+        }
+    });
+</script>
+
+</body>
+</html>
